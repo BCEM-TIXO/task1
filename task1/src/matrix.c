@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-int s21_create_matrix(int rows, int columns, matrix_t *result) {
+int create_matrix(int rows, int columns, matrix_t *result) {
   int status = kOk;
   if (result == NULL || rows <= 0 || columns <= 0) {
     return kMatrIncorrect;
@@ -14,7 +14,7 @@ int s21_create_matrix(int rows, int columns, matrix_t *result) {
   for (int i = 0; result->matrix && i < rows; i++) {
     result->matrix[i] = (int *)calloc(columns, sizeof(int *));
     if (result->matrix[i] == NULL) {
-      s21_remove_matrix(result);
+      remove_matrix(result);
       status = kMatrIncorrect;
       break;
     }
@@ -28,7 +28,7 @@ int s21_create_matrix(int rows, int columns, matrix_t *result) {
   return status;
 }
 
-void s21_remove_matrix(matrix_t *A) {
+void remove_matrix(matrix_t *A) {
   if (IsCorr(A) == kOk) {
     for (int i = 0; i < A->rows && A->matrix != NULL; i++) {
       free(A->matrix[i]);
@@ -40,9 +40,9 @@ void s21_remove_matrix(matrix_t *A) {
   }
 }
 
-int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
+int mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
   int status = IsMul(A, B);
-  if (status == kOk && s21_create_matrix(A->rows, B->columns, result) != kOk) {
+  if (status == kOk && create_matrix(A->rows, B->columns, result) != kOk) {
     status = kMatrIncorrect;
   }
   for (int i = 0; status == kOk && i < A->rows; i++)
